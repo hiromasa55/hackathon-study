@@ -1,13 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./FontSize.module.css";
 
 export default function FontSize({ onBack }) {
   const [fontSize, setFontSize] = useState("16");
 
+  // 起動時に保存されている文字サイズを読み込む
+  useEffect(() => {
+    const savedFontSize = localStorage.getItem("fontSize");
+
+    if (savedFontSize) {
+      setFontSize(savedFontSize);
+      document.documentElement.style.fontSize = `${savedFontSize}px`;
+    }
+  }, []);
+
+  // 保存
   const handleSave = () => {
+    localStorage.setItem("fontSize", fontSize);
+
+    // アプリ全体の文字サイズを変更
     document.documentElement.style.fontSize = `${fontSize}px`;
 
-    alert(`文字の大きさを ${fontSize}px に変更しました！`);
+    alert("文字サイズを変更しました！");
   };
 
   return (
