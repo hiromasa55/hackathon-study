@@ -2,32 +2,36 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import Layout from "./components/Layout";
-import Question from "./pages/Question";
+import Question from "./pages/Question/Question.jsx";
 import Menu from "./pages/Menu/Menu.jsx";
-import History from "./pages/History";
-import Option from "./pages/Option";
+import History from "./pages/History/History.jsx";
+import Option from "./pages/Option/Option.jsx";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,      // 共通レイアウト
+    element: <Layout />, // 共通レイアウト
     children: [
-      {
-        index: true,
-        element: <Question />,
-      },
-      {
-        path: "menu",
-        element: <Menu />,
-      },
-      {
-        path: "history",
-        element: <History />,
-      },
-      {
-        path: "option",
-        element: <Option />,
-      },
-    ],
+    {
+      index: true,
+      element: <Question />,
+    },
+    {
+      path: "question",
+      element: <Question />,
+    },
+    {
+      path: "menu",
+      element: <Menu />,
+    },
+    {
+      path: "history",
+      element: <History />,
+    },
+    {
+      path: "option",
+      element: <Option />,
+    },
+    ]
   },
 ]);
