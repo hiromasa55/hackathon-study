@@ -7,12 +7,14 @@ export default function Question() {
     const [reply, setReply] = useState("");
     const [loading, setLoading] = useState(false);
 
+    //ボタンを押したときに送る処理
     async function handleSubmit() {
         if (!message.trim()) return;
 
         setLoading(true);
 
         try {
+            //sendMessageでopenrouter.jsの関数を実行
             const result = await sendMessage(message);
             setReply(result);
         } catch (error) {

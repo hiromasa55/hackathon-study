@@ -10,7 +10,7 @@ export async function sendMessage(message) {
     });
 
     if (!response.ok) {
-        throw new Error("通信エラー");
+        throw new Error("サーバーとの通信に失敗しました。");
     }
 
     const data = await response.json();
