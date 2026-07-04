@@ -4,7 +4,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "./components/Layout";
 import Question from "./pages/Question/Question";
 import Menu from "./pages/Menu";
-import History from "./pages/History";
+import History from "./pages/History/History.jsx";
 import Option from "./pages/Option/Option.jsx";
 
 export const router = createBrowserRouter([
