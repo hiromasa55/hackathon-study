@@ -15,5 +15,5 @@ export async function sendMessage(message) {
 
     const data = await response.json();
 
-    return data.reply;
+    return data;
 }

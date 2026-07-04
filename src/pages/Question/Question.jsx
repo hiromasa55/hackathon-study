@@ -17,6 +17,28 @@ export default function Question() {
             //sendMessageでopenrouter.jsの関数を実行
             const result = await sendMessage(message);
             setReply(result);
+
+            const history = JSON.parse(localStorage.getItem("history") ?? "[]");
+
+            const now = new Date();
+
+            history.unshift({
+                id: Date.now(),
+                date: now.toLocaleString("ja-JP", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                }).replaceAll("/", "-"),
+                menu: result.name,
+                price: result.price,
+            });
+            
+            localStorage.setItem("history", JSON.stringify(history));
+
+            console.log(result);
         } catch (error) {
             console.error(error);
             setReply("エラーが発生しました。");
@@ -45,8 +67,17 @@ export default function Question() {
             </button>
 
             <div className={styles.result}>
-                <h2>AIからの提案</h2>
-                <p>{reply}</p>
+                 <h2>🍽 今日のおすすめ</h2>
+
+                <img
+                    src={reply.image}
+                    alt={reply.name}
+                    width={250}
+                />
+
+                <h3>{reply.name}</h3>
+
+                <p>{reply.reason}</p>
             </div>
         </div>
     );
