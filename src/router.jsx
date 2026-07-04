@@ -3,7 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 import Layout from "./components/Layout";
 import Question from "./pages/Question/Question.jsx";
-import Menu from "./pages/Menu";
+import Menu from "./pages/Menu/Menu.jsx";
 import History from "./pages/History/History.jsx";
 import Option from "./pages/Option/Option.jsx";
 
