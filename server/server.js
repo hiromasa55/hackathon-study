@@ -15,20 +15,62 @@ const client = new OpenAI({
     baseURL: "https://openrouter.ai/api/v1",
 });
 
+const menuList = [
+    "からあげ定食",
+    "カツカレー",
+    "きつねうどん",
+    "醤油ラーメン",
+    "焼き魚定食",
+    "ハンバーグ定食",
+];
+
 app.post("/chat", async (req, res) => {
 
+    console.log(process.env.OPENROUTER_API_KEY);
+    console.log(process.env.OPENROUTER_MODEL);
     const { message } = req.body;
+
+    const systemPrompt = `
+    あなたは学食のメニュー提案AIです。
+
+    ユーザーの気分や食べたいものから学食のメニューを1つ提案してください。
+
+    返答形式は以下です。
+
+    今日のメニューはこれで行きましょう！
+
+    ○○
+
+    理由：
+    ○○
+    `;
+
+    const userPrompt = `
+    ユーザーの気分
+    ${message}
+
+    候補メニュー
+    ${menuList.join("\n")}
+
+    この中から1つだけ選んでください。
+    理由も添えてください。
+    `;
+
 
     try {
 
         const completion = await client.chat.completions.create({
 
-            model: "openai/gpt-4.1-mini",
+            model: process.env.OPENROUTER_MODEL,
 
             messages: [
                 {
+                    role: "system",
+                    content: systemPrompt,
+                },
+                {
                     role: "user",
-                    content: message,
+                    content: userPrompt,
                 },
             ],
 
@@ -40,10 +82,10 @@ app.post("/chat", async (req, res) => {
 
     } catch (err) {
 
-        console.log(err);
+        console.error(err);
 
         res.status(500).json({
-            error: "API Error",
+            reply: "AIとの通信に失敗しました。",
         });
 
     }
