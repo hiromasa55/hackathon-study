@@ -2,7 +2,7 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import Layout from "./components/Layout";
-import Question from "./pages/Question";
+import Question from "./pages/Question/Question";
 import Menu from "./pages/Menu";
 import History from "./pages/History";
 import Option from "./pages/Option";
