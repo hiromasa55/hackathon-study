@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import OpenAI from "openai";
+import { menuItems } from "../shared/menuData.js";
 
 dotenv.config();
 
@@ -14,6 +15,8 @@ const client = new OpenAI({
     apiKey: process.env.OPENROUTER_API_KEY,
     baseURL: "https://openrouter.ai/api/v1",
 });
+
+const activeMenus = menuItems.filter(menu => menu.isActive);
 
 const menuList = [
     "からあげ定食",
@@ -45,15 +48,27 @@ app.post("/chat", async (req, res) => {
     ○○
     `;
 
+    const menuText = activeMenus
+    .map(menu => {
+        return `${menu.name}
+        価格:${menu.price}円
+        カロリー:${menu.calories ?? "不明"}kcal`;
+    })
+    .join("\n\n");
+
     const userPrompt = `
     ユーザーの気分
     ${message}
 
-    候補メニュー
-    ${menuList.join("\n")}
+    販売中のメニュー
+
+    ${menuText}
 
     この中から1つだけ選んでください。
-    理由も添えてください。
+    
+    ・必ず上のメニューから選ぶ
+    ・存在しない料理は作らない
+    ・理由も答える
     `;
 
 
