@@ -1,0 +1,122 @@
+/* src/pages/History/History.module.css */
+
+.mainContent {
+  /* Layout側で余白などが設定される想定ですが、右下固定の基準点にするため relative を指定します */
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* フィルター部分 */
+.header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+.filterWrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.label {
+  font-size: 14px;
+  font-weight: bold;
+}
+.selectInput {
+  padding: 5px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.sortButton {
+  padding: 5px 15px;
+  border: 1px solid #333;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* リスト部分 */
+.scrollableArea {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 80px; /* 固定バーと被らないための余白 */
+}
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.listItem {
+  background-color: #cce5ff;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 4px;
+}
+.arrow {
+  font-weight: bold;
+  color: #555;
+}
+.emptyText {
+  text-align: center;
+  color: #888;
+  margin-top: 20px;
+}
+
+/* ページネーション部分 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  gap: 5px;
+}
+.pageButton {
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.activePage {
+  background-color: #ddd;
+}
+.inactivePage {
+  background-color: #f0f0f0;
+}
+
+/* 右下の集計バー部分 */
+.fixedSummary {
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+  background-color: #333;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 10;
+}
+.summaryItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.summaryLabel {
+  font-size: 12px;
+  color: #ccc;
+}
+.summaryValue {
+  font-size: 16px;
+  font-weight: bold;
+}
+.summaryLine {
+  width: 1px;
+  height: 20px;
+  background-color: #555;
+}
