@@ -5,12 +5,12 @@ import Layout from "./components/Layout";
 import Question from "./pages/Question/Question";
 import Menu from "./pages/Menu";
 import History from "./pages/History";
-import Option from "./pages/Option";
+import Option from "./pages/Option/Option.jsx";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,      // 共通レイアウト
+    element: <Layout />, // 共通レイアウト
     children: [
       {
         index: true,
