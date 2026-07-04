@@ -31,9 +31,13 @@ const History = ({ historyData }) => {
   const filteredData = useMemo(() => {
     // 親から有効な配列（要素あり）が渡ってくればそれを使い、
     // 未定義(undefined)や空配列([])なら、このファイル内の defaultMockData を使う
-    const dataToProcess = (historyData && historyData.length > 0) 
-      ? historyData 
-      : defaultMockData;
+    const localHistory =
+    JSON.parse(localStorage.getItem("history") ?? "[]");
+
+    const dataToProcess =
+        localHistory.length > 0
+            ? localHistory
+            : defaultMockData;
 
     let data = [...dataToProcess].filter((item) =>
       item.date.startsWith(selectedMonth)
