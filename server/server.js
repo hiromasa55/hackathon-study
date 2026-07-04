@@ -40,17 +40,25 @@ app.post("/chat", async (req, res) => {
 
     返答形式は以下です。
 
-    今日のメニューはこれで行きましょう！
+    返答は必ずJSONのみで返してください。
 
-    ○○
+    {
+    "id": 数字,
+    "name": メニュー名,
+    "image": 画像のパス,
+    "reason": "理由"
+    "price": 価格の数字,
+    }
 
-    理由：
-    ○○
+    説明文やjsonは付けないでください。
     `;
 
     const menuText = activeMenus
     .map(menu => {
-        return `${menu.name}
+        return `
+        id: ${menu.id}
+        画像のパス(image): ${menu.image}
+        メニュー名:${menu.name}
         価格:${menu.price}円
         カロリー:${menu.calories ?? "不明"}kcal`;
     })
@@ -69,6 +77,9 @@ app.post("/chat", async (req, res) => {
     ・必ず上のメニューから選ぶ
     ・存在しない料理は作らない
     ・理由も答える
+    ・必ずidを返してください
+    ・画像のパスも返す
+    ・メニュー名も返す
     `;
 
 
@@ -91,9 +102,10 @@ app.post("/chat", async (req, res) => {
 
         });
 
-        res.json({
-            reply: completion.choices[0].message.content,
-        });
+        const content = completion.choices[0].message.content;
+        const result = JSON.parse(content);
+
+        res.json(result);
 
     } catch (err) {
 
