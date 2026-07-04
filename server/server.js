@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import OpenAI from "openai";
-import { menuItems } from "../shared/menuData.js";
+import { menuItems as initialMenuItems } from "../shared/menuData.js";
 
 dotenv.config();
 
@@ -16,21 +16,30 @@ const client = new OpenAI({
     baseURL: "https://openrouter.ai/api/v1",
 });
 
-const activeMenus = menuItems.filter(menu => menu.isActive);
 
-const menuList = [
-    "からあげ定食",
-    "カツカレー",
-    "きつねうどん",
-    "醤油ラーメン",
-    "焼き魚定食",
-    "ハンバーグ定食",
-];
+let menuItems = initialMenuItems;
+
+app.get("/menu", (req, res) => {
+    res.json(menuItems);
+});
+app.patch("/menu/:id", (req, res) => {
+    const id = Number(req.params.id);
+
+    menuItems = menuItems.map(item =>
+        item.id === id
+            ? { ...item, ...req.body }
+            : item
+    );
+
+    res.json(menuItems);
+});
+
+const activeMenus = menuItems.filter(menu => menu.isActive);
 
 app.post("/chat", async (req, res) => {
 
-    console.log(process.env.OPENROUTER_API_KEY);
-    console.log(process.env.OPENROUTER_MODEL);
+    const activeMenus = menuItems.filter(menu => menu.isActive);
+
     const { message } = req.body;
 
     const systemPrompt = `

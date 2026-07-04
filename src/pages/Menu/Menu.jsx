@@ -8,6 +8,7 @@ import { menuItems as initialMenuItems} from "../../../shared/menuData.js";
 export default function Menu() {
     // 初期データ（省略せずに全て記載しています）
     const [menuItems, setMenuItems] = useState(initialMenuItems);
+    
 
     const [isEditing, setIsEditing] = useState(false);
     const [sortType, setSortType] = useState('default');
@@ -23,6 +24,12 @@ export default function Menu() {
         setCurrentPage(1);
     }, [sortType, showCheapItems, menuItems.length]);
 
+    useEffect(() => {
+    fetch("http://localhost:3001/menu")
+        .then(r => r.json())
+        .then(setMenuItems);
+    }, []);
+
     const handleAddItem = (newItem) => {
         setMenuItems([...menuItems, newItem]);
     };
@@ -32,14 +39,23 @@ export default function Menu() {
         setMenuItems(updatedMenu);
     };
 
-    const handleToggleActive = (id) => {
-        const updatedMenu = menuItems.map(item => {
-            if (item.id === id) {
-                return { ...item, isActive: !item.isActive };
-            }
-            return item;
+    const handleToggleActive = async (id) => {
+        const target = menuItems.find(item => item.id === id);
+
+        await fetch(`http://localhost:3001/menu/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                isActive: !target.isActive,
+            }),
         });
-        setMenuItems(updatedMenu);
+
+        const res = await fetch("http://localhost:3001/menu");
+        const data = await res.json();
+
+        setMenuItems(data);
     };
 
     // 170円以下の商品をフィルタリング
