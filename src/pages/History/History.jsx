@@ -8,8 +8,19 @@ import HistoryList from './HistoryList';
 import HistoryPagination from './HistoryPagination';
 import HistorySummary from './HistorySummary';
 
-// App.jsx (またはルーター) から historyData を受け取る
-const History = ({ historyData = [] }) => {
+// ① Historyファイル側に持たせるモックデータ（データがない場合のフォールバック用）
+const defaultMockData = [
+  { id: 1, date: '2026-07-04 12:30', menu: 'カツカレー', price: 450 },
+  { id: 2, date: '2026-07-03 12:00', menu: '醤油ラーメン', price: 380 },
+  { id: 3, date: '2026-07-02 12:45', menu: '日替わり定食', price: 500 },
+  { id: 4, date: '2026-07-01 13:00', menu: 'きつねうどん', price: 320 },
+  { id: 5, date: '2026-06-28 12:15', menu: '豚丼', price: 420 },
+  { id: 6, date: '2026-06-25 12:00', menu: '唐揚げ定食', price: 500 },
+  { id: 7, date: '2026-06-20 12:30', menu: 'カツカレー', price: 450 },
+];
+
+// ② 引数部分で、historyData が渡されなかったり、空の配列だった場合の安全策を入れます
+const History = ({ historyData }) => {
   // State管理
   const [selectedMonth, setSelectedMonth] = useState('2026-07');
   const [isSortDesc, setIsSortDesc] = useState(true);
@@ -18,7 +29,13 @@ const History = ({ historyData = [] }) => {
 
   // データの絞り込みとソート
   const filteredData = useMemo(() => {
-    let data = [...historyData].filter((item) =>
+    // 親から有効な配列（要素あり）が渡ってくればそれを使い、
+    // 未定義(undefined)や空配列([])なら、このファイル内の defaultMockData を使う
+    const dataToProcess = (historyData && historyData.length > 0) 
+      ? historyData 
+      : defaultMockData;
+
+    let data = [...dataToProcess].filter((item) =>
       item.date.startsWith(selectedMonth)
     );
 
