@@ -1,216 +1,192 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Pagination from './Pagination';
+import MenuCard from './MenuCard';
+import AddMenuForm from './AddMenuForm';
+import MenuControls from './MenuControls';
 
 export default function Menu() {
-    // 1. メニューの初期データ（isActive を追加）
+    // 初期データ（省略せずに全て記載しています）
     const [menuItems, setMenuItems] = useState([
-        { id: 1, name: 'カレーライス', price: 400, calories: 750, image: 'https://placehold.jp/150x100.png?text=Curry', isActive: true },
-        { id: 2, name: 'ラーメン', price: 350, calories: 600, image: 'https://placehold.jp/150x100.png?text=Ramen', isActive: true },
-        { id: 3, name: '日替わり定食', price: 500, calories: 850, image: 'https://placehold.jp/150x100.png?text=Teishoku', isActive: true }
+        { id: 1, name: '唐揚定食(学生)', price: 440, calories: 1012, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 2, name: '唐揚定食(一般)', price: 510, calories: 1012, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 3, name: '温玉唐揚げ丼(学生)', price: 540, calories: 1381, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 4, name: '温玉唐揚げ丼(一般)', price: 610, calories: 1381, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 5, name: '日替わり1番(学生)', price:580, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 6, name: '日替わり1番(一般)', price: 650, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 7, name: '日替わり2番(学生)', price: 540, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 8, name: '日替わり2番(一般)', price: 610, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 9, name: '日替わり丼(学生)', price: 480, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 10, name: '日替わり丼(一般)', price: 530, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 11, name: 'ホッケ定食(学生)', price: 650, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 12, name: 'ホッケ定食(一般)', price: 700, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 13, name: '小盛ご飯唐揚げ定食(学生)', price: 410, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 14, name: '小盛ご飯唐揚げ定食(一般)', price: 480, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 15, name: '小盛温玉唐揚げ丼(学生)', price: 510, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 16, name: '小盛温玉唐揚げ丼(一般)', price: 580, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 17, name: '小盛日替わり1番(学生)', price: 550, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 18, name: '小盛日替わり1番(一般)', price: 620, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 19, name: '小盛日替わり2番(学生)', price: 510, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 20, name: '小盛日替わり2番(一般)', price: 580, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 21, name: '小盛日替わり3番(学生)', price: 450, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 22, name: '小盛日替わり3番(一般)', price: 500, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 23, name: '小盛日替わり丼(学生)', price: 620, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 24, name: '小盛日替わり丼(一般)', price: 670, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 25, name: 'カレーライス', price: 390, calories: 771, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 26, name: 'コロッケカレー', price: 470, calories: 814, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 27, name: '唐揚げ2個カレー', price: 550, calories: 935, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 28, name: 'チキンカツカレー', price: 530, calories: 875, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 29, name: 'とんかつカレー', price: 600, calories: 1132, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 30, name: '半カレー', price: 200, calories: 312, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 31, name: 'コロッケ丼', price: 380, calories: 1004, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 32, name: '鶏ソースカツ丼', price: 420, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 33, name: 'ソースカツ丼', price: 550, calories: 852, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 34, name: '鬼から定', price: 850, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 35, name: '炒飯', price: 490, calories: 646, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 36, name: 'ミニ炒飯', price: 180, calories: 315, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 37, name: '曜日別_学生', price: 450, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 38, name: '曜日別_一般', price: 500, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 39, name: '単品ライス', price: 170, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 40, name: 'ご飯類大盛', price: 120, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 41, name: '麺ダブル', price: 110, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 42, name: 'ラーメン(しょうゆ)', price: 400, calories: 510, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 43, name: 'ラーメン(みそ)', price: 400, calories: 580, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 44, name: 'ラーメン(しお)', price: 400, calories: 540, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 45, name: '塩担々麺', price: 480, calories: 631, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 46, name: '限定メニュー', price: 500, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 47, name: 'かけうどん', price: 280, calories: 396, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 48, name: 'かけそば', price: 290, calories: 312, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 49, name: 'ざるうどん', price: 280, calories: 305, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 50, name: 'ざるそば', price: 290, calories: 362, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 51, name: 'きつねうどん', price: 300, calories: 446, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 52, name: 'きつねそば', price: 310, calories: 354, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 53, name: '温玉うどん', price: 360, calories: 485, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 54, name: 'カレーうどん', price: 380, calories: 579, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 55, name: 'ザルラーメン', price: 430, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 56, name: 'ミニサラダ', price: 100, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 57, name: '温泉卵', price: 80, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 58, name: '味噌汁', price: 50, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 59, name: '納豆', price: 50, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 60, name: '冷奴', price: 80, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 61, name: 'コロッケ', price: 70, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 62, name: 'ジャンボメンチ', price: 130, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 63, name: 'ちくわ天', price: 100, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 64, name: '海老かき揚げ', price: 120, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 65, name: '単品唐揚1個', price: 70, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 66, name: '単品鶏カツ1個', price: 70, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 67, name: '週替わり小鉢A', price: 80, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 68, name: '週替わり小鉢B', price: 100, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true },
+        { id: 69, name: '週替わり小鉢C', price: 150, calories: null, image: 'https://placehold.jp/150x100.png?text=test', isActive: true }
     ]);
 
     const [isEditing, setIsEditing] = useState(false);
     const [sortType, setSortType] = useState('default');
-    const [hoveredId, setHoveredId] = useState(null);
+    const [showCheapItems, setShowCheapItems] = useState(true);
 
-    const [newItemName, setNewItemName] = useState('');
-    const [newItemPrice, setNewItemPrice] = useState('');
-    const [newItemCalories, setNewItemCalories] = useState('');
-    const [newItemImage, setNewItemImage] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 12;
 
     // --- ロジック部分 ---
 
-    // メニューを追加する関数
-    const handleAddItem = () => {
-        if (!newItemName || !newItemPrice || !newItemCalories) return;
+    // ソートやフィルタが変更されたとき、もしくはアイテム数が変わったときにページを1に戻す
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [sortType, showCheapItems, menuItems.length]);
 
-        const newItem = {
-            id: Date.now(),
-            name: newItemName,
-            price: parseInt(newItemPrice, 10),
-            calories: parseInt(newItemCalories, 10),
-            image: newItemImage || 'https://placehold.jp/150x100.png?text=No+Image',
-            isActive: true // 新しく追加したメニューも初期状態はON
-        };
-
+    const handleAddItem = (newItem) => {
         setMenuItems([...menuItems, newItem]);
-        setNewItemName('');
-        setNewItemPrice('');
-        setNewItemCalories('');
-        setNewItemImage('');
     };
 
-    // メニューを削除する関数
-    const handleDeleteItem = (id) => {
+        const handleDeleteItem = (id) => {
         const updatedMenu = menuItems.filter(item => item.id !== id);
         setMenuItems(updatedMenu);
     };
 
-    // ON/OFF（スライダー）を切り替える関数
     const handleToggleActive = (id) => {
         const updatedMenu = menuItems.map(item => {
             if (item.id === id) {
-                return { ...item, isActive: !item.isActive }; // 対象のメニューだけ isActive を反転
+                return { ...item, isActive: !item.isActive };
             }
             return item;
         });
         setMenuItems(updatedMenu);
     };
 
-    // 並び替え（ソート）の実行
-    const sortedMenuItems = [...menuItems].sort((a, b) => {
+    // 170円以下の商品をフィルタリング
+    const filteredMenuItems = menuItems.filter(item => {
+        if (showCheapItems) return true; 
+        return item.price > 170;         
+    });
+
+    // 並び替え（ソート）
+    const sortedMenuItems = [...filteredMenuItems].sort((a, b) => {
         switch (sortType) {
             case 'price-asc': return a.price - b.price;
             case 'price-desc': return b.price - a.price;
-            case 'calories-asc': return a.calories - b.calories;
-            case 'calories-desc': return b.calories - a.calories;
+            case 'calories-asc':
+                if (a.calories === null && b.calories === null) return 0;
+                if (a.calories === null) return 1;
+                if (b.calories === null) return -1;
+                return a.calories - b.calories;
+            case 'calories-desc':
+                if (a.calories === null && b.calories === null) return 0;
+                if (a.calories === null) return 1;
+                if (b.calories === null) return -1;
+                return b.calories - a.calories;
             default: return 0;
         }
     });
 
+    // ページ遷移の計算
+    const totalPages = Math.max(1, Math.ceil(sortedMenuItems.length / itemsPerPage));
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentDisplayItems = sortedMenuItems.slice(startIndex, startIndex + itemsPerPage);
+
+    // --- 画面表示部分 ---
     // --- 画面表示部分 ---
     return (
-        <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
+        <div style={{ padding: '20px', maxWidth: '900px', margin: '0 auto' }}>
             <h1>学食メニュー一覧</h1>
 
-            <div style={{ marginBottom: '20px', display: 'flex', gap: '15px', alignItems: 'center' }}>
-                <button onClick={() => setIsEditing(!isEditing)}>
-                    {isEditing ? '編集モードを終了' : 'メニューを編集する'}
-                </button>
+            {/* コントロールパネル*/}
+            <MenuControls 
+                isEditing={isEditing}
+                setIsEditing={setIsEditing}
+                sortType={sortType}
+                setSortType={setSortType}
+                showCheapItems={showCheapItems}
+                setShowCheapItems={setShowCheapItems}
+            />
 
-                <select value={sortType} onChange={(e) => setSortType(e.target.value)} style={{ padding: '5px' }}>
-                    <option value="default">標準</option>
-                    <option value="price-asc">価格の安い順</option>
-                    <option value="price-desc">価格の高い順</option>
-                    <option value="calories-asc">カロリーの低い順</option>
-                    <option value="calories-desc">カロリーの高い順</option>
-                </select>
-            </div>
+            {/* ページ遷移（上部） */}
+            <Pagination 
+                currentPage={currentPage} 
+                setCurrentPage={setCurrentPage} 
+                totalPages={totalPages} 
+            />
 
-            {/* メニューリストの表示 */}
-            <ul style={{ listStyleType: 'none', padding: 0, display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-                {sortedMenuItems.map((item) => (
-                    <li 
+            {/* メニューリスト */}
+            <ul style={{ listStyleType: 'none', padding: 0, display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center' }}>
+                {currentDisplayItems.map((item) => (
+                    <MenuCard 
                         key={item.id} 
-                        style={{ 
-                            border: '1px solid #ccc', 
-                            borderRadius: '8px',
-                            padding: '10px',
-                            width: '200px',
-                            textAlign: 'center',
-                            position: 'relative',
-                            // OFF の時はカード全体を少し半透明にする（見た目でわかりやすくするため）
-                            opacity: item.isActive ? 1 : 0.6,
-                            transition: 'opacity 0.3s ease',
-                            backgroundColor: '#fff'
-                        }}
-                        onMouseEnter={() => setHoveredId(item.id)}
-                        onMouseLeave={() => setHoveredId(null)}
-                    >
-                        {/* 画像の表示 */}
-                        <img 
-                            src={item.image} 
-                            alt={item.name} 
-                            style={{ width: '100%', height: '120px', objectFit: 'cover', borderRadius: '4px' }} 
-                        />
-                        
-                        <h3 style={{ margin: '10px 0 5px' }}>{item.name}</h3>
-                        <p style={{ margin: '0 0 10px', fontWeight: 'bold' }}>{item.price}円</p>
-
-                        {/* カロリー表示（ホバーしている時だけ表示） */}
-                        {hoveredId === item.id && (
-                            <div style={{
-                                position: 'absolute',
-                                top: '10px',
-                                right: '10px',
-                                backgroundColor: 'rgba(0,0,0,0.7)',
-                                color: 'white',
-                                padding: '4px 8px',
-                                borderRadius: '4px',
-                                fontSize: '12px'
-                            }}>
-                                {item.calories} kcal
-                            </div>
-                        )}
-
-                        {/* AI提案対象のON/OFFトグルスライダー */}
-                        <div style={{ margin: '15px 0 5px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
-                            <span style={{ fontSize: '12px', color: '#555' }}>
-                                {item.isActive ? 'AI提案：ON' : 'AI提案：OFF'}
-                            </span>
-                            
-                            {/* スライダー風のスイッチ */}
-                            <div 
-                                onClick={() => handleToggleActive(item.id)}
-                                style={{
-                                    width: '40px',
-                                    height: '20px',
-                                    backgroundColor: item.isActive ? '#4CAF50' : '#ccc',
-                                    borderRadius: '10px',
-                                    position: 'relative',
-                                    cursor: 'pointer',
-                                    transition: 'background-color 0.3s'
-                                }}
-                            >
-                                <div style={{
-                                    width: '16px',
-                                    height: '16px',
-                                    backgroundColor: '#white',
-                                    borderRadius: '50%',
-                                    position: 'absolute',
-                                    top: '2px',
-                                    // ONの時は右側、OFFの時は左側に丸ノブを寄せる
-                                    left: item.isActive ? '22px' : '2px',
-                                    transition: 'left 0.3s',
-                                    boxShadow: '0 1px 3px rgba(0,0,0,0.4)'
-                                }} />
-                            </div>
-                        </div>
-                        
-                        {/* 編集モードの時だけ「削除」ボタンを表示 */}
-                        {isEditing && (
-                            <button 
-                                onClick={() => handleDeleteItem(item.id)} 
-                                style={{ color: 'red', marginTop: '10px', width: '100%' }}
-                            >
-                                削除
-                            </button>
-                        )}
-                    </li>
+                        item={item} 
+                        isEditing={isEditing} 
+                        handleToggleActive={handleToggleActive} 
+                        handleDeleteItem={handleDeleteItem} 
+                    />
                 ))}
             </ul>
 
-            {/* 編集モードの時だけ「追加」フォームを表示 */}
+            {/* ページ遷移（下部） */}
+            <Pagination 
+                currentPage={currentPage} 
+                setCurrentPage={setCurrentPage} 
+                totalPages={totalPages} 
+            />
+
+            {/* 新規追加フォーム */}
             {isEditing && (
-                <div style={{ marginTop: '30px', padding: '15px', border: '1px solid #ccc', borderRadius: '8px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <h3>新しいメニューを追加</h3>
-                    <input
-                        type="text"
-                        placeholder="メニュー名"
-                        value={newItemName}
-                        onChange={(e) => setNewItemName(e.target.value)}
-                    />
-                    <input
-                        type="number"
-                        placeholder="価格 (円)"
-                        value={newItemPrice}
-                        onChange={(e) => setNewItemPrice(e.target.value)}
-                    />
-                    <input
-                        type="number"
-                        placeholder="カロリー (kcal)"
-                        value={newItemCalories}
-                        onChange={(e) => setNewItemCalories(e.target.value)}
-                    />
-                    <input
-                        type="text"
-                        placeholder="画像URL (例: https://...)"
-                        value={newItemImage}
-                        onChange={(e) => setNewItemImage(e.target.value)}
-                    />
-                    <button onClick={handleAddItem} style={{ padding: '8px', backgroundColor: '#007BFF', color: '#fff', border: 'none', borderRadius: '4px' }}>
-                        メニューを追加
-                    </button>
-                </div>
+                <AddMenuForm onAdd={handleAddItem} />
             )}
         </div>
     );
