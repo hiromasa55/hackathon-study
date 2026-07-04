@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Option.module.css";
 import Profile from "./Profile";
 import Nickname from "./Nickname";
@@ -8,18 +8,37 @@ import Color from "./Color";
 export default function Option() {
   const [page, setPage] = useState("option");
 
+  // ←ここに移動
+  useEffect(() => {
+    const savedColor = localStorage.getItem("baseColor");
+
+    if (savedColor) {
+      document.body.style.backgroundColor = savedColor;
+    }
+
+    const savedFontSize = localStorage.getItem("fontSize");
+
+    if (savedFontSize) {
+      document.documentElement.style.fontSize = `${savedFontSize}px`;
+    }
+  }, []);
+
   if (page === "profile") {
     return <Profile onBack={() => setPage("option")} />;
   }
+
   if (page === "nickname") {
     return <Nickname onBack={() => setPage("option")} />;
   }
+
   if (page === "fontsize") {
     return <FontSize onBack={() => setPage("option")} />;
   }
+
   if (page === "color") {
     return <Color onBack={() => setPage("option")} />;
   }
+
   return (
     <div className={styles.container}>
       <button className={styles.profile} onClick={() => setPage("profile")}>

@@ -1,11 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Color.module.css";
 
 export default function Color({ onBack }) {
   const [color, setColor] = useState("#ffffff");
 
+  // 起動時に保存されている色を読み込む
+  useEffect(() => {
+    const savedColor = localStorage.getItem("baseColor");
+
+    if (savedColor) {
+      setColor(savedColor);
+      document.body.style.backgroundColor = savedColor;
+    }
+  }, []);
+
+  // 保存
   const handleSave = () => {
+    localStorage.setItem("baseColor", color);
+
+    // 背景色を変更
     document.body.style.backgroundColor = color;
+
     alert("ベースカラーを変更しました！");
   };
 
@@ -14,7 +29,7 @@ export default function Color({ onBack }) {
       <h1>ベースカラー変更</h1>
 
       <div className={styles.card}>
-        <label>ベースカラーを選択</label>
+        <label>ベースカラー</label>
 
         <input
           type="color"

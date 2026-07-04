@@ -1,11 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Nickname.module.css";
 
 export default function Nickname({ onBack }) {
   const [nickname, setNickname] = useState("");
 
+  useEffect(() => {
+    const savedProfile = localStorage.getItem("profile");
+
+    if (savedProfile) {
+      const profile = JSON.parse(savedProfile);
+      setNickname(profile.nickname || "");
+    }
+  }, []);
+
   const handleSave = () => {
-    alert(`ニックネームを変更しました！\nニックネーム：${nickname}`);
+    const savedProfile = localStorage.getItem("profile");
+    const profile = savedProfile ? JSON.parse(savedProfile) : {};
+
+    profile.nickname = nickname;
+
+    localStorage.setItem("profile", JSON.stringify(profile));
+
+    alert("ニックネームを変更しました！");
   };
 
   return (
