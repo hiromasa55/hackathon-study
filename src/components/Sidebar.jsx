@@ -26,7 +26,7 @@ const Sidebar = () => {
           className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}
         >
           <FaRegQuestionCircle size={20} />
-          <span>質問</span>
+          <span>ぺこナビ</span>
         </NavLink>
         
         <NavLink 

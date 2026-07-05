@@ -65,7 +65,7 @@ export default function Question() {
                         onClick={handleSubmit}
                         disabled={loading}
                     >
-                        {loading ? "送信中..." : "ペコナビに相談"}
+                        {loading ? "送信中..." : "ぺこナビに相談"}
                     </button>
                 </div>
 
