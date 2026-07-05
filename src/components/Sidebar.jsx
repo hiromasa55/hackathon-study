@@ -1,6 +1,7 @@
 // src/components/Sidebar.jsx
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+// 変更点①：'react-router-dom' から 'Link' を追加でインポートします
+import { NavLink, Link } from 'react-router-dom';
 import styles from './Sidebar.module.css';
 import logoImg from '../assets/logo.png';
 
@@ -12,7 +13,10 @@ const Sidebar = () => {
     <div className={styles.sidebar}>
       
       <div className={styles.logoContainer}>
-        <img src={logoImg} alt="ぺこナビ" className={styles.logoImage} />
+        {/* 変更点②：<img> タグを <Link to="/question"> で囲みます */}
+        <Link to="/question">
+          <img src={logoImg} alt="ぺこナビ" className={styles.logoImage} />
+        </Link>
       </div>
       
       {/* メニュー全体を囲むdivを追加 */}
