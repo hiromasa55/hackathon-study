@@ -14,12 +14,10 @@ export default function Question() {
         setLoading(true);
 
         try {
-            //sendMessageでopenrouter.jsの関数を実行
             const result = await sendMessage(message);
             setReply(result);
 
             const history = JSON.parse(localStorage.getItem("history") ?? "[]");
-
             const now = new Date();
 
             history.unshift({
@@ -37,7 +35,6 @@ export default function Question() {
             });
             
             localStorage.setItem("history", JSON.stringify(history));
-
             console.log(result);
         } catch (error) {
             console.error(error);
@@ -49,35 +46,45 @@ export default function Question() {
 
     return (
         <div className={styles.container}>
-            <h1>今の腹の気分を教えてください！</h1>
+            <h1>今のお腹の気分を教えてください！</h1>
 
-            <textarea
-                className={styles.input}
-                placeholder="例：今日はガッツリしたものが食べたい"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-            />
+            {/* 左右に並べるためのラッパーを追加 */}
+            <div className={styles.contentWrap}>
+                
+                {/* 左半分：入力エリアとボタン */}
+                <div className={styles.leftSection}>
+                    <textarea
+                        className={styles.input}
+                        placeholder="例：今日はガッツリしたものが食べたい"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                    />
 
-            <button
-                className={styles.button}
-                onClick={handleSubmit}
-                disabled={loading}
-            >
-                {loading ? "送信中..." : "AIに相談"}
-            </button>
+                    <button
+                        className={styles.button}
+                        onClick={handleSubmit}
+                        disabled={loading}
+                    >
+                        {loading ? "送信中..." : "ペコナビに相談"}
+                    </button>
+                </div>
 
-            <div className={styles.result}>
-                 <h2>🍽 今日のおすすめ</h2>
+                {/* 右半分：今日のおすすめ（結果） */}
+                <div className={styles.result}>
+                    <h2>🍽 今日のおすすめ</h2>
+                    {reply && (
+                        <>
+                            <img
+                                src={reply.image}
+                                alt={reply.name}
+                                width={250}
+                            />
+                            <h3>{reply.name}</h3>
+                            <p>{reply.reason}</p>
+                        </>
+                    )}
+                </div>
 
-                <img
-                    src={reply.image}
-                    alt={reply.name}
-                    width={250}
-                />
-
-                <h3>{reply.name}</h3>
-
-                <p>{reply.reason}</p>
             </div>
         </div>
     );

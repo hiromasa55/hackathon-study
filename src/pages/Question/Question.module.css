@@ -97,3 +97,34 @@
 .result h3 {
     margin-bottom: 10px;
 }
+
+/* 左右に並べるための親要素 */
+.contentWrap {
+    display: flex;
+    gap: 40px; /* 左と右の間の溝の広さ */
+    width: 100%;
+    max-width: 900px; /* 必要に応じて全体の幅を調整してください */
+    margin: 0 auto;
+}
+
+/* 左半分のエリア */
+.leftSection {
+    flex: 1; /* 幅を均等に分ける */
+    display: flex;
+    flex-direction: column; /* 中身（入力欄とボタン）を縦並びにする */
+    gap: 5px; /* 入力欄とボタンの隙間 */
+    margin-top: 20px;
+}
+
+/* テキストエリアの幅をいっぱいにする */
+.input {
+    width: 100%;
+    box-sizing: border-box;
+    /* 既存の高さや枠線のスタイルはそのまま残してください */
+}
+
+/* 右半分のエリア */
+.result {
+    flex: 1; /* 幅を均等に分ける */
+    /* 既存の背景色やパディングのスタイルはそのまま残してください */
+}
