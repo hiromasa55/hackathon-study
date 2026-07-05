@@ -1,5 +1,5 @@
 // src/components/Sidebar.jsx
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 // 変更点①：'react-router-dom' から 'Link' を追加でインポートします
 import { NavLink, Link } from 'react-router-dom';
 import styles from './Sidebar.module.css';
@@ -9,6 +9,20 @@ import logoImg from '../assets/logo.png';
 import { FaRegQuestionCircle, FaListUl, FaHistory, FaCog } from 'react-icons/fa';
 
 const Sidebar = () => {
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    const updateProfile = () => {
+      const saved = localStorage.getItem("profile");
+      if (saved) setProfile(JSON.parse(saved));
+    };
+
+    updateProfile();
+    window.addEventListener("storage", updateProfile);
+
+    return () => window.removeEventListener("storage", updateProfile);
+  }, []);
+
   return (
     <div className={styles.sidebar}>
       
@@ -18,6 +32,18 @@ const Sidebar = () => {
           <img src={logoImg} alt="ぺこナビ" className={styles.logoImage} />
         </Link>
       </div>
+
+      {/* プロフィール表示エリア */}
+      {profile && (
+        <div className={styles.profileBox}>
+          <div className={styles.profileName}>
+            {profile.nickname || profile.name}
+          </div>
+          <div className={styles.profileId}>
+            {profile.studentId}
+          </div>
+        </div>
+      )}
       
       {/* メニュー全体を囲むdivを追加 */}
       <div className={styles.menuList}>

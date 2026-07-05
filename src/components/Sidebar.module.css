@@ -63,3 +63,23 @@
   background-color: #fff0f0;
   transform: none;
 }
+
+.profileBox {
+  padding: 15px;
+  margin-bottom: 15px;
+  background: #fff7e6;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.profileName {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.profileId {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}

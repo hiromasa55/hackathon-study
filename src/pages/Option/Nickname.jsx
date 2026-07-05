@@ -20,6 +20,7 @@ export default function Nickname({ onBack }) {
     profile.nickname = nickname;
 
     localStorage.setItem("profile", JSON.stringify(profile));
+    window.dispatchEvent(new Event("storage"));
 
     alert("ニックネームを変更しました！");
   };

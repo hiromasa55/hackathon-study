@@ -42,8 +42,8 @@ export default function Option() {
   return (
     <div className={styles.container}>
       <button className={styles.profile} onClick={() => setPage("profile")}>
-        プロフィール <br />
-        氏名・学生番号
+        プロフィール
+        <small>氏名・学生番号</small>
       </button>
 
       <button className={styles.button} onClick={() => setPage("nickname")}>
