@@ -25,37 +25,61 @@ export default function Menu() {
     }, [sortType, showCheapItems, menuItems.length]);
 
     useEffect(() => {
-    fetch("http://localhost:3001/menu")
-        .then(r => r.json())
-        .then(setMenuItems);
+
+        const saved = localStorage.getItem("menuItems");
+
+        if(saved){
+            setMenuItems(JSON.parse(saved));
+        }else{
+            setMenuItems(initialMenuItems);
+
+            localStorage.setItem(
+                "menuItems",
+                JSON.stringify(initialMenuItems)
+            );
+        }
     }, []);
 
     const handleAddItem = (newItem) => {
-        setMenuItems([...menuItems, newItem]);
+        const updatedMenu = [...menuItems, newItem];
+
+        setMenuItems(updatedMenu);
+        localStorage.setItem(
+            "menuItems",
+            JSON.stringify(updatedMenu)
+        );
     };
 
-        const handleDeleteItem = (id) => {
+    const handleDeleteItem = (id) => {
         const updatedMenu = menuItems.filter(item => item.id !== id);
+        
         setMenuItems(updatedMenu);
+
+        localStorage.setItem(
+            "menuItems",
+            JSON.stringify(updatedMenu)
+        );
     };
 
     const handleToggleActive = async (id) => {
-        const target = menuItems.find(item => item.id === id);
+        const updated = menuItems.map(item => {
 
-        await fetch(`http://localhost:3001/menu/${id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                isActive: !target.isActive,
-            }),
+            if(item.id === id){
+                return {
+                    ...item,
+                    isActive: !item.isActive
+                };
+            }
+
+            return item;
         });
 
-        const res = await fetch("http://localhost:3001/menu");
-        const data = await res.json();
+        setMenuItems(updated);
 
-        setMenuItems(data);
+        localStorage.setItem(
+            "menuItems",
+            JSON.stringify(updated)
+        );
     };
 
     // 170円以下の商品をフィルタリング

@@ -14,7 +14,11 @@ export default function Question() {
         setLoading(true);
 
         try {
-            const result = await sendMessage(message);
+            const menus = JSON.parse(
+                localStorage.getItem("menuItems")
+            ) ?? [];
+
+            const result = await sendMessage(message, menus);
             setReply(result);
 
             const history = JSON.parse(localStorage.getItem("history") ?? "[]");

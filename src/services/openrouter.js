@@ -1,4 +1,4 @@
-export async function sendMessage(message) {
+export async function sendMessage(message, menus) {
     const response = await fetch("http://localhost:3001/chat", {
         method: "POST",
         headers: {
@@ -6,7 +6,8 @@ export async function sendMessage(message) {
         },
         body: JSON.stringify({
             message,
-        }),
+            menus,
+        })
     });
 
     if (!response.ok) {
