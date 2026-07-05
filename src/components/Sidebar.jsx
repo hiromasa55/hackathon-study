@@ -2,40 +2,54 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './Sidebar.module.css';
+import logoImg from '../assets/logo.png';
+
+// react-iconsから、各メニューに合うアイコンをインポート
+import { FaRegQuestionCircle, FaListUl, FaHistory, FaCog } from 'react-icons/fa';
 
 const Sidebar = () => {
   return (
     <div className={styles.sidebar}>
-      <div className={styles.logo}>ロゴ</div>
       
-      {/* isActiveがtrue(現在地)なら、navItemとactiveの両方のCSSを当てる */}
-      <NavLink 
-        to="/question" 
-        className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}
-      >
-        質問
-      </NavLink>
+      <div className={styles.logoContainer}>
+        <img src={logoImg} alt="ぺこナビ" className={styles.logoImage} />
+      </div>
       
-      <NavLink 
-        to="/menu" 
-        className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}
-      >
-        メニュー一覧
-      </NavLink>
-      
-      <NavLink 
-        to="/history" 
-        className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}
-      >
-        履歴
-      </NavLink>
-      
-      <NavLink 
-        to="/option" 
-        className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}
-      >
-        option
-      </NavLink>
+      {/* メニュー全体を囲むdivを追加 */}
+      <div className={styles.menuList}>
+        <NavLink 
+          to="/question" 
+          className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}
+        >
+          <FaRegQuestionCircle size={20} />
+          <span>質問</span>
+        </NavLink>
+        
+        <NavLink 
+          to="/menu" 
+          className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}
+        >
+          <FaListUl size={20} />
+          <span>メニュー一覧</span>
+        </NavLink>
+        
+        <NavLink 
+          to="/history" 
+          className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}
+        >
+          <FaHistory size={20} />
+          <span>履歴</span>
+        </NavLink>
+        
+        <NavLink 
+          to="/option" 
+          className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}
+        >
+          <FaCog size={20} />
+          <span>option</span>
+        </NavLink>
+      </div>
+
     </div>
   );
 };
