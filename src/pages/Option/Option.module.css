@@ -9,6 +9,7 @@
 
 .profile {
   height: 80px;
+  width: 500px;
   border: 2px solid #cfcfcf;
   background: #e8e8e8;
   display: flex;
@@ -20,6 +21,7 @@
 
 .button {
   height: 45px;
+  width: 500px;
   border: 2px solid #cfcfcf;
   background: #e8e8e8;
   font-size: 26px;
