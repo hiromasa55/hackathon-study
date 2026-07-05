@@ -38,9 +38,10 @@ const activeMenus = menuItems.filter(menu => menu.isActive);
 
 app.post("/chat", async (req, res) => {
 
-    const activeMenus = menuItems.filter(menu => menu.isActive);
+    const {message, menus} = req.body;
 
-    const { message } = req.body;
+    const activeMenus = menus.filter(menu => menu.isActive);
+
 
     const systemPrompt = `
     あなたは学食のメニュー提案AIです。
