@@ -14,6 +14,7 @@ export default function Profile({ onBack }) {
     };
 
     localStorage.setItem("profile", JSON.stringify(profile));
+    window.dispatchEvent(new Event("storage"));
 
     alert("登録しました！");
   };
