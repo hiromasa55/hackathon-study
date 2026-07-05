@@ -37,4 +37,13 @@
 ## 💻 ローカルでの環境構築
 1. リポジトリをクローンします
    ```bash
-   git clone [https://github.com/あなたのチーム名/peco-navi.git](https://github.com/あなたのチーム名/peco-navi.git)
+   git clone https://github.com/hiromasa55/hackathon-study.git
+2. serverフォルダへ移動し、サーバーを起動します
+   ```bash
+   npm install --save-dev nodemon
+3. 親階層へ戻り、ローカルサーバーを起動します
+   ```bash
+   npm run dev
+→上記で起動しない場合は、npmをインストールします
+   ```bash
+   npm install
