@@ -30,9 +30,12 @@
 
 ## 🛠 技術スタック
 * **Frontend:** React, Vite
+* **Backend** Node.js(Express)
 * **Routing:** react-router-dom
 * **Styling:** CSS Modules
 * **Icons:** react-icons
+* **Vrsion Control** Git / Github
+* **Infrastructure** Vercel
 
 ## 💻 ローカルでの環境構築
 1. リポジトリをクローンします

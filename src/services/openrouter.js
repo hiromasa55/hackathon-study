@@ -1,5 +1,9 @@
 export async function sendMessage(message, menus) {
-    const response = await fetch("http://localhost:3001/chat", {
+    const API_URL = import.meta.env.DEV
+        ? "http://localhost:3001/api"
+        : "/api";
+
+    const response = await fetch(`${API_URL}/chat`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
