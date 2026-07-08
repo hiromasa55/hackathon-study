@@ -129,4 +129,11 @@ app.post("/chat", async (req, res) => {
 
 });
 
+app.use((req, res) => {
+    res.status(404).json({
+        path: req.path,
+        originalUrl: req.originalUrl,
+    });
+});
+
 export default app;
