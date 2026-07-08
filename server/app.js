@@ -19,10 +19,10 @@ const client = new OpenAI({
 
 let menuItems = initialMenuItems;
 
-app.get("/menu", (req, res) => {
+app.get("/api/menu", (req, res) => {
     res.json(menuItems);
 });
-app.patch("/menu/:id", (req, res) => {
+app.patch("/api/menu/:id", (req, res) => {
     const id = Number(req.params.id);
 
     menuItems = menuItems.map(item =>
@@ -36,7 +36,7 @@ app.patch("/menu/:id", (req, res) => {
 
 const activeMenus = menuItems.filter(menu => menu.isActive);
 
-app.post("/chat", async (req, res) => {
+app.post("/api/chat", async (req, res) => {
 
     const {message, menus} = req.body;
 
