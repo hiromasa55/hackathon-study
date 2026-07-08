@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./Question.module.css";
 import { sendMessage } from "../../services/openrouter";
+import { menuItems as initialMenuItems } from "../../../shared/menuData.js";
 
 export default function Question() {
     const [message, setMessage] = useState("");
@@ -15,8 +16,8 @@ export default function Question() {
 
         try {
             const menus = JSON.parse(
-                localStorage.getItem("menuItems")
-            ) ?? [];
+                localStorage.getItem("menuItems")) ??
+                initialMenuItems;
 
             const result = await sendMessage(message, menus);
             setReply(result);
