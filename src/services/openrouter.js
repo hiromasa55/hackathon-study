@@ -1,6 +1,6 @@
 export async function sendMessage(message, menus) {
     const API_URL = import.meta.env.DEV
-        ? "http://localhost:3001/api"
+        ? "http://localhost:3001"
         : "/api";
 
     const response = await fetch(`${API_URL}/chat`, {
